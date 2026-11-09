@@ -1,0 +1,7 @@
+.DS_Store
+.vercel
+node_modules
+
+# originals; the site uses the converted .mp4 versions
+videos/*.MOV
+videos/*.mov
