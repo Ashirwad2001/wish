@@ -227,6 +227,10 @@ video.con[data-rot="-90"]{width:56.25cqw;height:100cqw;transform:translate(-50%,
 .frame button{display:block;border-radius:2px;overflow:hidden;outline-offset:4px}
 .frame img{display:block;height:min(62vw,300px);width:auto;max-width:none;transition:transform .5s ease,filter .5s}
 .frame button:hover img{transform:scale(1.04);filter:saturate(1.1)}
+.frame video{display:block;height:min(62vw,300px);width:auto;max-width:none;background:#000}
+.fv button{position:relative}
+.fv-snd{position:absolute;right:8px;bottom:8px;font-size:13px;line-height:1;padding:6px 8px;border-radius:999px;background:rgba(0,0,0,.5);color:#fff;pointer-events:none}
+.mo-cap,#moWhat,.mo-msg footer i,#heroCap{display:none!important}
 
 /* hidden heart + marquee */
 .psst{display:flex;justify-content:center;padding-block:clamp(40px,7vw,80px)}
@@ -572,7 +576,7 @@ dialog::backdrop{background:rgba(40,20,30,.55);backdrop-filter:blur(6px)}
     <div class="featured" id="featured"></div>
     <div class="collage" id="collage"></div>
     <div class="film-title rv"><h3>The whole roll</h3><span>Swipe sideways →</span></div>
-    <div class="film rv" id="film" role="list" tabindex="0" aria-label="Photo filmstrip, scroll sideways"></div>
+    <div class="film rv" id="film" role="list" tabindex="0" aria-label="Video and photo filmstrip, scroll sideways"></div>
   </div></section>
 
   <div class="psst"><button type="button" id="psstBtn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9z"/></svg><span id="psstText"></span></button></div>
@@ -746,7 +750,11 @@ const IMG={
   c5:"photos/c5.jpg",
   c6:"photos/c6.jpg",
   c7:"photos/c7.jpg",
-  c8:"photos/c8.jpg"
+  c8:"photos/c8.jpg",
+  n1:"photos/IMG-20250525-WA0027.jpg",
+  n2:"photos/Snapchat-1038879174.jpg",
+  n3:"photos/Snapchat-414589140.jpg",
+  n4:"photos/n4.jpg"
 };
 
 const CONFIG = {
@@ -767,18 +775,12 @@ const CONFIG = {
 
   /* Videos live in the videos/ folder. file = the exact file name, cap = the caption shown on it.
      heroVideos fade behind the title; storyVideos play one after another in the Moving Pictures section.
-     Same eight clips in both, in a different order. Edit captions or order freely. */
+     heroVideos is a short pick of four; storyVideos (and the filmstrip) hold every clip. Edit order freely. */
   heroVideos: [
     { file:"diwali-1.mp4",                                  cap:"our best Diwali together so far" },
-    { file:"WhatsApp Video 2026-11-07 at 08.40.52.mp4",     cap:"that smile" },
-    { file:"WhatsApp Video 2026-11-07 at 08.42.07.mp4",     cap:"our mirror selfie" },
     { file:"WhatsApp Video 2026-11-07 at 08.40.52 (1).mp4", cap:"you and me, up close" },
-    { file:"WhatsApp Video 2026-11-07 at 08.42.11.mp4",     cap:"the trek, side by side" },
-    { file:"WhatsApp Video 2026-11-07 at 08.46.22.mp4",     cap:"close to you" },
-    { file:"WhatsApp Video 2026-11-07 at 08.46.47.mp4",     cap:"laughing at nothing" },
-    { file:"WhatsApp Video 2026-11-07 at 08.40.44.mp4",     cap:"a night I won't forget" },
-    { file:"WhatsApp Video 2026-11-07 at 08.46.21.mp4",     cap:"little moments" },
-    { file:"diwali-2.mp4",                                  cap:"Diwali night" }
+    { file:"diwali-2.mp4",                                  cap:"Diwali night" },
+    { file:"WhatsApp Video 2026-11-07 at 08.46.22.mp4",     cap:"close to you" }
   ],
   /* Every clip fills its frame exactly as recorded (like the preview pages). To stand a sideways clip upright,
      add its file name here with -90, for example "WhatsApp Video ... .mp4": -90. */
@@ -788,18 +790,24 @@ const CONFIG = {
   storyTitle: "Moments I would <em>live again</em>",
   storyIntro: "These clips are some of the happiest moments of my life, Sanu. I would love to watch them again and again, and every time I fall for you a little more.",
   storyNotes: [
+    "One of the best nights, our dandiya night. We had so much fun, and I’m so glad I got to see that side of you. You look even more beautiful when you’re in dance mode.",
+    "Your head on my shoulder. That is home.",
     "The trek. Your ankle hurt, the path was hard, and you never complained once. I held on to you and thought: this is the strongest person I know.",
-    "That smile. If I could keep one second of any day forever, it might be this one.",
+    "That smile. It feels so amazing whenever I kiss your cheeks.",
     "Our mirror selfie. Silly poses, no effort at all, and somehow still my favourite picture of us.",
-    "So close I could hear you laugh. There is nowhere else I would rather be.",
+    "I was on the 7th floor after that kiss. It’s always the slow cheek kisses.",
     "A night I did not want to end. Good lights, good company, and you next to me.",
     "Close to you is my favourite place in the whole world.",
-    "We laughed at nothing, and it felt like everything.",
+    "We laughed at nothing, and it felt like everything. I still remember buying the same tee. It was a bit awkward wearing the same tee at the gym, but it was fun. We should buy more matching clothes.",
     "The little moments nobody else sees. Those are the ones I keep.",
-    "Our best Diwali together so far. Green and gold, mehendi still fresh on your hands, and I could not stop smiling.",
-    "Too much joy to stay still. Every light was bright, but you were brighter. This Diwali is one I will keep forever."
+    "Best Diwali together so far. You look absolutely stunning, with beautiful mehendi and amazing bangles, and I couldn’t stop smiling. Here’s to more Diwalis together.",
+    "Too much joy to stay still. Every light was bright, but you were brighter. This Diwali is one I will keep forever.",
+    "Just you, being you. No pose, no effort, and still the prettiest thing in the room.",
+    "I couldn’t forget these lil moments, and this day especially."
   ],
   storyVideos: [
+    { file:"VID-20250929-WA0219.mp4",                       cap:"our dandiya night" },
+    { file:"VID-20250929-WA0323.mp4",                       cap:"head on my shoulder" },
     { file:"WhatsApp Video 2026-11-07 at 08.42.11.mp4",     cap:"the trek, side by side" },
     { file:"WhatsApp Video 2026-11-07 at 08.40.52.mp4",     cap:"that smile" },
     { file:"WhatsApp Video 2026-11-07 at 08.42.07.mp4",     cap:"our mirror selfie" },
@@ -809,7 +817,9 @@ const CONFIG = {
     { file:"WhatsApp Video 2026-11-07 at 08.46.47.mp4",     cap:"laughing at nothing" },
     { file:"WhatsApp Video 2026-11-07 at 08.46.21.mp4",     cap:"little moments" },
     { file:"diwali-1.mp4",                                  cap:"our best Diwali together so far" },
-    { file:"diwali-2.mp4",                                  cap:"Diwali night" }
+    { file:"diwali-2.mp4",                                  cap:"Diwali night" },
+    { file:"Snapchat-1714846555 2.mp4",                     cap:"just you, being you" },
+    { file:"VID-20250415-WA0033.mp4",                       cap:"silly us" }
   ],
   marquee: ["a little world, just for you", "for Sanu, with all my love"],
   psst: "psst… a tiny heart is hiding here — tap it",
@@ -861,14 +871,17 @@ const CONFIG = {
   /* Photos: file = key in IMG above, ratio = width/height of the real photo.
      heart:true adds a tappable note on that photo. Leave date "" to hide it. */
   photos: [
-    { file:"p2", ratio:"3/4",  caption:"My favorite person ♡",              date:"15 APR 2025", heart:true,  note:"Standing next to you is my favorite place to be. Even in a shop mirror." },
+    { file:"p2", ratio:"3/4",  caption:"My favorite person ♡",              date:"15 APR 2025", heart:true,  note:"Standing next to you is my favorite place to be." },
     { file:"p5", ratio:"3/4",  caption:"Your smile, my weakness.",           date:"24 AUG 2025", heart:true,  note:"Purple light, silly face, and still the best thing in the frame." },
     { file:"p1", ratio:"3/4",  caption:"Just us being us.",                  date:"15 APR 2025", heart:false, note:"" },
     { file:"p3", ratio:"3/4",  caption:"A little moment I never want to forget.", date:"06 MAY 2025", heart:true, note:"Quiet moments like this are the ones I keep." },
     { file:"p8", ratio:"3/4",  caption:"Mountains, clouds and you.",         date:"06 JUL 2026", heart:false, note:"" },
     { file:"p9", ratio:"3/4",  caption:"Home is wherever you are.",          date:"04 JUL 2026", heart:false, note:"" },
     { file:"p6", ratio:"1100/848", caption:"One of my favorite memories.",   date:"", heart:false, note:"" },
-    { file:"p7", ratio:"3/4",  caption:"A birthday to remember ♡",           date:"", heart:false, note:"", gallery:false }
+    { file:"p7", ratio:"3/4",  caption:"A birthday to remember ♡",           date:"", heart:false, note:"", gallery:false },
+    { file:"n1", ratio:"3/4",  caption:"Your hand in mine.",                 date:"25 MAY 2025", heart:false, note:"", collage:false },
+    { file:"n2", ratio:"3/4",  caption:"Spending time together in the car", date:"", heart:false, note:"" },
+    { file:"n3", ratio:"3/4",  caption:"Cheek to cheek.",                    date:"", heart:false, note:"", collage:false }
   ],
   featuredIndex: 0,
   featuredText: {
@@ -902,9 +915,9 @@ const CONFIG = {
   ],
   letterSign: "Yours, always ♡",
   letterPhotos: {
-    1: [["p2","my favorite person"],["p3","quiet moments"]],
+    1: [["p2","my favorite person"],["n2","quiet moments","50% 62%"]],
     3: [["p8","mountains, clouds and you"],["p9","home is wherever you are"]],
-    4: [["p6","a favorite memory"]],
+    4: [["n4","a favorite memory","50% 80%"]],
     7: [["p7","a birthday to remember"]],
     9: [["p5","your smile, my weakness"]]
   },
@@ -1134,6 +1147,17 @@ function build(){
 
   /* film */
   const film=$('#film');
+  /* videos first, then the photos at the end */
+  const FV=C.storyVideos||[];
+  FV.forEach(v=>{const f=document.createElement('div');f.className='frame fv';f.setAttribute('role','listitem');
+    f.innerHTML=`<button type="button" aria-label="Turn sound on or off: ${esc(v.cap)}"><video muted loop playsinline preload="metadata" src="${encodeURI('videos/'+v.file)}"></video><span class="fv-snd" aria-hidden="true">sound off</span></button>`;
+    const vd=$('video',f),sn=$('.fv-snd',f);
+    $('button',f).onclick=()=>{const wasMuted=vd.muted;$$('video',film).forEach(x=>{x.muted=true;});$$('.fv-snd',film).forEach(x=>{x.textContent='sound off';});
+      vd.muted=!wasMuted;sn.textContent=wasMuted?'sound on':'sound off';const p=vd.play();if(p&&p.catch)p.catch(()=>{});};
+    film.appendChild(f);});
+  if(FV.length&&!reduce&&'IntersectionObserver' in window){
+    const fio=new IntersectionObserver(es=>es.forEach(e=>{const v=e.target;if(e.isIntersecting){const p=v.play();if(p&&p.catch)p.catch(()=>{});}else v.pause();}),{threshold:.5});
+    $$('video',film).forEach(v=>fio.observe(v));}
   C.photos.forEach((p,i)=>{if(p.gallery===false)return;const f=document.createElement('div');f.className='frame';f.setAttribute('role','listitem');
     f.innerHTML=`<button type="button" aria-label="Open photo ${i+1}: ${esc(plain(p.caption))}"><img src="${IMG[p.file]}" alt="" loading="lazy" decoding="async"></button>`;
     $('button',f).onclick=e=>lbOpen(i,e.currentTarget);film.appendChild(f);});
@@ -1153,7 +1177,7 @@ function build(){
   const HEART='<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9z"/></svg>';
   C.letter.forEach((t,i)=>{const p=document.createElement('p');p.textContent=t;pa.appendChild(p);
     if(LP[i]){const m=document.createElement('div');m.className='med';
-      m.innerHTML=LP[i].map(([k,cap])=>`<figure><img src="${IMG[k]}" alt="${esc(cap)}" loading="lazy"><figcaption>${esc(cap)}</figcaption></figure>`).join('');pa.appendChild(m);}
+      m.innerHTML=LP[i].map(([k,cap,pos])=>`<figure><img src="${IMG[k]}"${pos?` style="object-position:${pos}"`:''} alt="${esc(cap)}" loading="lazy"><figcaption>${esc(cap)}</figcaption></figure>`).join('');pa.appendChild(m);}
     else if(LS.includes(i)){const s=document.createElement('div');s.className='spark';s.setAttribute('aria-hidden','true');s.innerHTML=HEART;pa.appendChild(s);}});
   const sg=document.createElement('span');sg.className='sign';sg.textContent=C.letterSign;pa.appendChild(sg);
   const wx=document.createElement('div');wx.className='wax';wx.setAttribute('aria-hidden','true');wx.innerHTML=HEART;pa.appendChild(wx);
